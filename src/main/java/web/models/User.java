@@ -1,16 +1,23 @@
 package web.models;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+@Entity
+@Table(name = "users")
 public class User {
-    private static int idGenerator;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "username")
     @NotEmpty(message = "Fill the field")
     @Size(min = 2, max = 50, message = "Name should be between 2 & 50 chars")
     private String name;
 
+    @Column(name = "usernickname")
     @NotEmpty(message = "Fill the field")
     @Size(min = 2, max = 50, message = "Name should be between 2 & 50 chars")
     private String nickname;
@@ -18,7 +25,6 @@ public class User {
     public User() {}
 
     public User(String name, String nickname) {
-        this.id = ++idGenerator;
         this.name = name;
         this.nickname = nickname;
     }
@@ -29,14 +35,6 @@ public class User {
 
     public int getId() {
         return id;
-    }
-
-    public static int getIdGenerator() {
-        return idGenerator;
-    }
-
-    public static void setIdGenerator(int idGenerator) {
-        User.idGenerator = idGenerator;
     }
 
     public String getName() {
@@ -53,5 +51,10 @@ public class User {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    @Override
+    public String toString() {
+        return this.getName() + " " + this.getNickname();
     }
 }
